@@ -5,19 +5,18 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-    <title>BookRecc</title>
+    <title>Spotiphy</title>
   </head>
   
   <body>
 
     <div class="header">
-      <img class="image" src="static/img/books.png"/>
-      <h1> BookRecc </h1>
-      <img class="image" src="static/img/books.png"/>
+      <img class="image" src="static/img/spotiphy.png"/>
+      <h1> Spotiphy </h1>
     </div>
 
     <div class="navBar"> 
-      <p class="welcome_tag">Welcome, user {{ user.user_ID }}</p>
+      <!-- <p class="welcome_tag">Welcome, user {{ user.user_ID }}</p> -->
       <a class="button btnRec" onclick="getRecommendations()">Get my recommendations</a>
       <a class="button btnRate" onclick="makeRatings()"">Make some ratings</a>
     </div>

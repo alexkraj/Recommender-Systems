@@ -1,23 +1,29 @@
-@import url('https://fonts.googleapis.com/css?family=Courier+Prime&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+body{
+    background-color: black;
+}
 
 .header{
     text-align: center;
-    padding-top: 40px;
+    font-weight: bold;
+    padding-top: 30px;
+    font-size: 100px;
+    color:#e223a0;
 
 }
 h1{
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 85px;
     display: inline-block;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 .image{
-    height: 5%;
-    width: 5%;
+    height: 12%;
+    width: 12%;
     min-width: 60px;
     display: inline-block;
+    vertical-align: middle; 
 }
 
 .navBar{
@@ -26,7 +32,7 @@ h1{
 }
 
 .welcome_tag {
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     font-size: 15px;
 }
@@ -39,16 +45,16 @@ h1{
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Montserrat', sans-serif;
     margin: 4px 2px;
     cursor: pointer;
 }
 
 .btnRec {
-    background-color : #4CAF50;
+    background-color : #666666;
 }
 .btnRate {
-    background-color:red;
+    background-color: #666666;
 }
 
 .container{
@@ -58,22 +64,22 @@ h1{
 .main{
     margin: auto;
     min-height: 450px;
-    width: 85%;
-    background-color: #E8E8E8;
+    width: 80%;
+    background-color: #262626;
 }
 
 .list_image{
     height: 40px;
 }
 .list_text{
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Montserrat', sans-serif;
     padding-left: 8px;
 }
 
 .ratings_information{
     padding-top: 10px;
     font-weight: bold;
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: red;
 }
@@ -81,7 +87,7 @@ h1{
 .temp_message {
     padding-top: 10px;
     font-weight: bold;
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     color: #4CAF50;
 }
