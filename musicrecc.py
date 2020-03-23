@@ -1,5 +1,6 @@
 # CTVT58
 # CC - Recommender Systems
+# Heavily based off Web Tech assignment which uses matrix factorisation
 from flask import Flask, render_template, request
 from scipy.sparse.linalg import svds
 import pandas as pd
@@ -9,28 +10,30 @@ import json
 
 app = Flask(__name__)
 user = 1
-user_books = []  # stores book IDs that the user has already rated
+user_songs = []  # stores song IDs that the user has already rated
 
-books_df = []
+songs_df = []
 ratings_df = []
 
 
-# read the BOOKS and RATINGS and convert into panda dataframe
-def read_data(d_books, d_ratings):
-    data_books = [i.strip().split(";") for i in open(d_books, "r").readlines()]
-    books_df = pd.DataFrame(
-        data_books, columns=["Book_ID", "Authors", "Title", "Image"]
-    )
-    books_df["Book_ID"] = books_df["Book_ID"].apply(pd.to_numeric, errors="coerce")
+# read the SONGS and RATINGS and convert into panda dataframe
+def read_data(d_songs, d_ratings):
 
-    data_ratings = [i.strip().split(";") for i in open(d_ratings, "r").readlines()]
+    data_songs = [i.strip().split(",") for i in open(d_songs, "r").readlines()]
+    songs_df = pd.DataFrame(
+        data_songs, columns=["Song_ID", "Artist", "Title", "Genre"]
+    )
+    songs_df["Song_ID"] = songs_df["Song_ID"].apply(pd.to_numeric, errors="coerce")
+
+    data_ratings = [i.strip().split(",") for i in open(d_ratings, "r").readlines()]
     ratings_df = pd.DataFrame(
-        data_ratings, columns=["User_ID", "Book_ID", "Rating"], dtype=int
+        data_ratings, columns=["User_ID", "Song_ID", "Rating", "Landscape"], dtype=int
     )
     ratings_df["User_ID"] = ratings_df["User_ID"].apply(pd.to_numeric, errors="coerce")
-    ratings_df["Book_ID"] = ratings_df["Book_ID"].apply(pd.to_numeric, errors="coerce")
+    ratings_df["Song_ID"] = ratings_df["Song_ID"].apply(pd.to_numeric, errors="coerce")
     ratings_df["Rating"] = ratings_df["Rating"].apply(pd.to_numeric, errors="coerce")
-    return books_df, ratings_df
+    ratings_df["Landscape"] = ratings_df["Landscape"].apply(pd.to_numeric, errors="coerce")
+    return songs_df, ratings_df
 
 
 # making the recommendations matrix, fill the rest with 0s
@@ -82,12 +85,20 @@ def recommend_books(
     )
     return user_full, recommendations
 
+############################### FLASK METHODS BELOW ###############################
 
 @app.route("/")
 def home():
     message = ""
     user_info = {"user_ID": user, "message": message}
     return render_template("home.html", user=user_info)
+
+@app.route("/getcontext", methods=['GET'])
+def getContext():
+    return 0 
+    # message = ""
+    # user_info = {"user_ID": user, "message": message}
+    # return render_template("home.html", user=user_info)
 
 
 @app.route("/myrecc", methods=["GET"])
@@ -162,5 +173,7 @@ def addRating():
 
 
 if __name__ == "__main__":
-    books_df, ratings_df = read_data("data/data_books.csv", "data/data_ratings.csv")
+    songs_df, ratings_df = read_data("data/Pre-Filtered/music_data.csv", "data/Pre-Filtered/ratings_data.csv")
+    print(songs_df.head())
+    print(ratings_df.head())
     app.run(debug=True)

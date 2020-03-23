@@ -6,24 +6,22 @@ body{
 
 .header{
     text-align: center;
-    font-weight: bold;
-    padding-top: 30px;
-    font-size: 100px;
+    font-weight: bolder;
+    padding-top: 50px;
     color:#e223a0;
 
 }
 h1{
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    font-size: 85px;
+    font-size: 150px;
     display: inline-block;
 }
 .image{
-    height: 12%;
-    width: 12%;
+    height: 18%;
+    width: 18%;
     min-width: 60px;
     display: inline-block;
-    vertical-align: middle; 
 }
 
 .navBar{
@@ -33,28 +31,24 @@ h1{
 
 .welcome_tag {
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 15px;
 }
 
 .button {
-    background-color: blue; 
+    background-color: #bfbfbf; 
     border: none;
-    color: white;
+    color: black;
     padding: 15px 32px;
     text-align: center;
+    vertical-align: middle;
     display: inline-block;
-    font-size: 16px;
+    font-size: 50px;
     font-family: 'Montserrat', sans-serif;
     margin: 4px 2px;
     cursor: pointer;
-}
-
-.btnRec {
-    background-color : #666666;
-}
-.btnRate {
-    background-color: #666666;
+    min-width: 72%;
+    height: 200px;
 }
 
 .container{
@@ -63,7 +57,7 @@ h1{
 
 .main{
     margin: auto;
-    min-height: 450px;
+    min-height: 1200px;
     width: 80%;
     background-color: #262626;
 }
@@ -85,9 +79,18 @@ h1{
 }
 
 .temp_message {
-    padding-top: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    margin-bottom: 20px;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    color: #4CAF50;
+    font-size: 50px;
+    color:#e223a0;
+    display: inline-block
+}
+
+.btnimage {
+    height: 65%;
+    display: inline-block;
+    margin-right: 20px;
 }

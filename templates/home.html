@@ -15,15 +15,18 @@
       <h1> Spotiphy </h1>
     </div>
 
-    <div class="navBar"> 
-      <!-- <p class="welcome_tag">Welcome, user {{ user.user_ID }}</p> -->
+    <!-- <div class="navBar"> 
       <a class="button btnRec" onclick="getRecommendations()">Get my recommendations</a>
       <a class="button btnRate" onclick="makeRatings()"">Make some ratings</a>
-    </div>
+    </div> -->
 
     <div class="container" >
       <div class="main" id="main">
-          <a class = "temp_message">{{ user.message }}</a>
+          <a class = "temp_message">What kind of terrain are you driving through today?</a>
+          <a class="button btnCoastLine" onclick="getContext(0)""><img class="btnimage" src="static/img/whale.png"/>Coastline</a>
+          <a class="button btnCountryside" onclick="getContext(1)""><img class="btnimage" src="static/img/rooster.png"/>Countryside</a>
+          <a class="button btnMountains" onclick="getContext(2)""><img class="btnimage" src="static/img/mountain.png"/>Mountains</a>
+          <a class="button btnUrban" onclick="getContext(3)""><img class="btnimage" src="static/img/urban.png"/>Urban</a>
       </div>
     </div>
     
@@ -61,8 +64,69 @@ function getRecommendations(){
 </script>
 
 <script type="text/javascript">
+  // sends the context to the server
+  function getContext(value){
+    event.preventDefault();
+    console.log(value);
+
+    // remove the previous choice buttons
+    const myNode = document.getElementById("main");
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+
+    let node = document.createElement("a");
+    let text = document.createTextNode("How long is your drive going to be?");
+    node.className = "temp_message";
+    node.appendChild(text);
+    document.getElementById("main").appendChild(node);
+
+    let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
+    for (let i=0; i<4; i++){
+      let button = document.createElement("a");
+      button.className = "button "+i;
+      let text = document.createTextNode(durations[i]);
+      button.appendChild(text);
+      button.setAttribute("onClick","setDuration("+i+")");
+      document.getElementById("main").appendChild(button);
+      
+    }
+
+  }
+
+</script>
+
+<script>
+  function setDuration(value){
+      event.preventDefault();
+      console.log(value+" duration");
+      
+      const myNode = document.getElementById("main");
+      while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+      }
+
+      let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
+      let numSongs = ["8", "16", "24", "30"];
+
+      let node = document.createElement("a");
+      let text = document.createTextNode("We've made you a playlist of "+numSongs[value]+" new songs for your "+durations[value]+" drive!");
+      node.className = "temp_message";
+      node.appendChild(text);
+      document.getElementById("main").appendChild(node);
+
+      let button = document.createElement("a");
+      button.className = "button";
+      let button_text = document.createTextNode("Great, take me there!");
+      button.appendChild(button_text);
+      button.setAttribute("onClick","showPlaylist()");
+      document.getElementById("main").appendChild(button);
+    }
+</script>
+
+<script type="text/javascript">
   // GET THE RATINGS LIST AND MAKE EACH RATING A SMALL FORM
-  function makeRatings(){
+  function makeRatings(value){
     event.preventDefault();
     const myNode = document.getElementById("main");
     while (myNode.firstChild) {
