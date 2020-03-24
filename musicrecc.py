@@ -9,7 +9,7 @@ import random
 import json
 
 app = Flask(__name__)
-user = 17
+user = 6
 user_songs = []  # stores song IDs that the user has already rated
 
 songs_df = []
@@ -146,13 +146,14 @@ def my_recc():
         preds_df, user, songs_df, ratings_df, playlist_length
     )
 
-    recommended_songs = already_rated.head(playlist_length)
+    recommended_songs = predictions.head(playlist_length)
+    # recommended_songs = already_rated.head(playlist_length)
     songs_json = recommended_songs.to_json(orient="records")
+    print(songs_json)
     user_info = {"user_ID": user, "rec_songs": songs_json}
 
     return json.dumps(user_info)
 
 
 if __name__ == "__main__":
-    # songs_df, ratings_df = read_data("data/Pre-Filtered/music_data.csv", "data/Pre-Filtered/ratings_data.csv")
     app.run(debug=True)

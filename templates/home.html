@@ -141,8 +141,9 @@ function getRecommendations(){
   }
   $.get("/myrecc",function(data){
     let received_data = JSON.parse(data);
-    console.log(received_data);
-    
+    let data2 = JSON.parse(received_data.rec_songs);
+    // for (let i in )
+    console.log(data2);
     // let data2 = JSON.parse(data);
     // let books = JSON.parse(data2.rec_books);
     // for (let i in books){
