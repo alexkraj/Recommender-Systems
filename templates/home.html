@@ -83,7 +83,7 @@ function getRecommendations(overridevalue){
           let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
           for (let i=0; i<4; i++){
             let button = document.createElement("a");
-            button.className = "button "+i;
+            button.className = "button btnDuration";
             let text = document.createTextNode(durations[i]);
             button.appendChild(text);
             button.setAttribute("onClick","setDuration("+i+")");
@@ -121,7 +121,7 @@ function getRecommendations(overridevalue){
           document.getElementById("main").appendChild(node);
 
           let button = document.createElement("a");
-          button.className = "button";
+          button.className = "button btnDuration";
           let button_text = document.createTextNode("Great, take me there!");
           button.appendChild(button_text);
           button.setAttribute("onClick","getRecommendations()");
@@ -161,13 +161,26 @@ function getRecommendations(){
       document.getElementById("main").appendChild(node);
     }
 
-    
+    let button = document.createElement("a");
+    button.className = "button btnNewPlaylist";
+    let button_text = document.createTextNode("Make a new playlist");
+    button.appendChild(button_text);
+    button.setAttribute("onClick","startAgain()");
+    document.getElementById("main").appendChild(button);
+
   });
 }
 </script>
 
 <script type="text/javascript">
-  // BOOKS: GET THE RATINGS LIST AND MAKE EACH RATING A SMALL FORM
+function startAgain(){
+  event.preventDefault();
+  location.reload();
+}
+</script>
+
+<script type="text/javascript">
+//   // BOOKS: GET THE RATINGS LIST AND MAKE EACH RATING A SMALL FORM
   function makeRatings(value){
     event.preventDefault();
     const myNode = document.getElementById("main");

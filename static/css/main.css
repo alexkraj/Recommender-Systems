@@ -51,6 +51,24 @@ h1{
     height: 200px;
 }
 
+.btnDuration{
+    background-color:#e223a0;
+    color: white;
+    height: 80px;
+    padding-top: 72px;
+    padding-bottom: 72px;
+}
+
+.btnNewPlaylist{
+    background-color:#e223a0;
+    color: white;
+    height: 80px;
+    padding-top: 72px;
+    padding-bottom: 72px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
 .container{
     text-align: center;
 }
