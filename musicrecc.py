@@ -9,7 +9,7 @@ import random
 import json
 
 app = Flask(__name__)
-user = 1001
+user = 17
 user_songs = []  # stores song IDs that the user has already rated
 
 songs_df = []
@@ -68,9 +68,8 @@ def demean_data(ratings):
     return demeaned_ratings, user_ratings_mean
 
 
-def recommend_books(
-    predictions_df, userID, songs_df, original_ratings_df, num_recommendations=50
-):
+def recommend_songs(predictions_df, userID, songs_df, original_ratings_df, num_recommendations=50):
+    print(predictions_df)
     user_row_number = userID
     sorted_user_predictions = predictions_df.iloc[user_row_number].sort_values(
         ascending=False
@@ -80,9 +79,9 @@ def recommend_books(
     user_full = user_data.merge(
         songs_df, how="left", left_on="Song_ID", right_on="Song_ID"
     ).sort_values(["Rating"], ascending=False)
-    print("User {0} has already rated {1} books.".format(userID, user_full.shape[0]))
+    # print("User {0} has already rated {1} books.".format(userID, user_full.shape[0]))
     print(
-        """Recommending the highest {0} predicted ratings books not already rated.""".format(
+        "Recommending the highest {0} predicted new songs for the listener.".format(
             num_recommendations
         )
     )
@@ -127,7 +126,7 @@ def getDuration():
 @app.route("/myrecc", methods=["GET"])
 def my_recc():
     # create the matrix
-    global ratings_df
+    global ratings_df, playlist_length
     R_df = create_matrix(ratings_df)
 
     # demean the data
@@ -143,11 +142,11 @@ def my_recc():
     ) + user_ratings_mean.reshape(-1, 1)
     preds_df = pd.DataFrame(all_user_predicted_ratings, columns=R_df.columns)
 
-    already_rated, predictions = recommend_books(
-        preds_df, user, songs_df, ratings_df, 5
+    already_rated, predictions = recommend_songs(
+        preds_df, user, songs_df, ratings_df, playlist_length
     )
 
-    recommended_songs = already_rated.head(5)
+    recommended_songs = already_rated.head(playlist_length)
     songs_json = recommended_songs.to_json(orient="records")
     user_info = {"user_ID": user, "rec_songs": songs_json}
 
