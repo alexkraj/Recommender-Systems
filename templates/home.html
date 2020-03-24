@@ -30,8 +30,8 @@
 </html>
 
 <script type="text/javascript">
-// FETCH LIST OF RECOMMENDATIONS
-function getRecommendations(){
+// BOOKS: FETCH LIST OF RECOMMENDATIONS
+function getRecommendations(overridevalue){
   event.preventDefault();
   const myNode = document.getElementById("main");
   while (myNode.firstChild) {
@@ -59,7 +59,7 @@ function getRecommendations(){
 </script>
 
 <script type="text/javascript">
-  // sends the context to the server
+  // MUSIC: SENDS THE CHOSEN CONTEXT TO THE SERVER
   function getContext(value){
     event.preventDefault();
 
@@ -97,6 +97,7 @@ function getRecommendations(){
 </script>
 
 <script type="text/javascript">
+  // MUSIC: SENDS THE CHOSEN DURATION OF THE DRIVE TO THE SERVER
   function setDuration(value){
       event.preventDefault();
 
@@ -123,40 +124,47 @@ function getRecommendations(){
           button.className = "button";
           let button_text = document.createTextNode("Great, take me there!");
           button.appendChild(button_text);
-          button.setAttribute("onClick","getRecommendations("+value+")");
+          button.setAttribute("onClick","getRecommendations()");
           document.getElementById("main").appendChild(button);
         }
       );
-      
-      // const myNode = document.getElementById("main");
-      // while (myNode.firstChild) {
-      //   myNode.removeChild(myNode.firstChild);
-      // }
-
-      // let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
-      // let numSongs = ["8", "16", "24", "30"];
-
-      // let node = document.createElement("a");
-      // let text = document.createTextNode("We've made you a playlist of "+numSongs[value]+" new songs for your "+durations[value]+" drive!");
-      // node.className = "temp_message";
-      // node.appendChild(text);
-      // document.getElementById("main").appendChild(node);
-
-      // let button = document.createElement("a");
-      // button.className = "button";
-      // let button_text = document.createTextNode("Great, take me there!");
-      // button.appendChild(button_text);
-      // button.setAttribute("onClick","getRecommendations("+value+")");
-      // document.getElementById("main").appendChild(button);
     }
 </script>
 
 <script type="text/javascript">
-
+// MUSIC: FETCH RECOMMENDED PLAYLIST :) 
+function getRecommendations(){
+  event.preventDefault();
+  const myNode = document.getElementById("main");
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+  }
+  $.get("/myrecc",function(data){
+    let received_data = JSON.parse(data);
+    console.log(received_data);
+    
+    // let data2 = JSON.parse(data);
+    // let books = JSON.parse(data2.rec_books);
+    // for (let i in books){
+    //   let node = document.createElement("LI");
+    //   let text = document.createElement("a");
+    //   let text_c = document.createTextNode(books[i].Title+" ("+books[i].Authors+")");
+    //   let image = document.createElement("img");
+    //   image.setAttribute("src",books[i].Image);
+    //   image.className = "list_image";
+    //   text.className = "list_text";
+    //   text.appendChild(text_c);
+    //   node.appendChild(image);
+    //   node.appendChild(text);
+    //   node.className = "list_element";
+    //   document.getElementById("main").appendChild(node);
+    // }
+  });
+}
 </script>
 
 <script type="text/javascript">
-  // GET THE RATINGS LIST AND MAKE EACH RATING A SMALL FORM
+  // BOOKS: GET THE RATINGS LIST AND MAKE EACH RATING A SMALL FORM
   function makeRatings(value){
     event.preventDefault();
     const myNode = document.getElementById("main");
@@ -233,7 +241,7 @@ function getRecommendations(){
 </script>
 
 <script type="text/javascript">
-  // THIS FUNCTION IS THE ONE BY ONE SENDING OF A RATED BOOK TO THE SERVER
+  // BOOKS: THIS FUNCTION IS THE ONE BY ONE SENDING OF A RATED BOOK TO THE SERVER
   function rate(book_id){
     event.preventDefault();
     let rating = document.getElementById("select"+book_id).value;
