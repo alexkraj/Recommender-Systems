@@ -33,16 +33,18 @@ def read_data(d_songs, d_ratings):
     ratings_df = pd.DataFrame(
         data_ratings, columns=["User_ID", "Song_ID", "Rating", "Landscape"], dtype=int
     )
+
     ratings_df["User_ID"] = ratings_df["User_ID"].apply(pd.to_numeric, errors="coerce")
     ratings_df["Song_ID"] = ratings_df["Song_ID"].apply(pd.to_numeric, errors="coerce")
     ratings_df["Rating"] = ratings_df["Rating"].apply(pd.to_numeric, errors="coerce")
     ratings_df["Landscape"] = ratings_df["Landscape"].apply(pd.to_numeric, errors="coerce")
     return songs_df, ratings_df
 
-# clears and filters the ratings dataframe to only include the ratings that were made in-context with the same 
-# context as the current user is searchings
+# reads the .csv files into the ratings and songs dataframes respectively
+# drops the landscape column as all of the contexts have been filtered
 def filter_df(landscape_value):
-    global ratings_df
+    global ratings_df, songs_df
+    songs_df, ratings_df = read_data("data/Pre-Filtered/music_data.csv", "data/Pre-Filtered/ratings_data.csv")
     # remove all the ratings not made in the same context
     ratings_df = ratings_df[ratings_df.Landscape == landscape_value]
     # drop the context column because pre-filtering is now complete
@@ -54,6 +56,7 @@ def create_matrix(ratings):
     recommendation_matrix = ratings.pivot(
         index="User_ID", columns="Song_ID", values="Rating"
     ).fillna(0)
+    print ("THIS MATRIX CREATION FUNCTION IS SUCCESSFUL!")
     return recommendation_matrix
 
 
@@ -124,6 +127,7 @@ def getDuration():
 @app.route("/myrecc", methods=["GET"])
 def my_recc():
     # create the matrix
+    global ratings_df
     R_df = create_matrix(ratings_df)
 
     # demean the data
@@ -140,10 +144,10 @@ def my_recc():
     preds_df = pd.DataFrame(all_user_predicted_ratings, columns=R_df.columns)
 
     already_rated, predictions = recommend_books(
-        preds_df, user, songs_df, ratings_df, 10
+        preds_df, user, songs_df, ratings_df, 5
     )
 
-    recommended_songs = already_rated.head(10)
+    recommended_songs = already_rated.head(5)
     songs_json = recommended_songs.to_json(orient="records")
     user_info = {"user_ID": user, "rec_songs": songs_json}
 
@@ -151,5 +155,5 @@ def my_recc():
 
 
 if __name__ == "__main__":
-    songs_df, ratings_df = read_data("data/Pre-Filtered/music_data.csv", "data/Pre-Filtered/ratings_data.csv")
+    # songs_df, ratings_df = read_data("data/Pre-Filtered/music_data.csv", "data/Pre-Filtered/ratings_data.csv")
     app.run(debug=True)
