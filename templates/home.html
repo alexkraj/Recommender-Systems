@@ -15,11 +15,6 @@
       <h1> Spotiphy </h1>
     </div>
 
-    <!-- <div class="navBar"> 
-      <a class="button btnRec" onclick="getRecommendations()">Get my recommendations</a>
-      <a class="button btnRate" onclick="makeRatings()"">Make some ratings</a>
-    </div> -->
-
     <div class="container" >
       <div class="main" id="main">
           <a class = "temp_message">What kind of terrain are you driving through today?</a>
@@ -69,34 +64,40 @@ function getRecommendations(){
     event.preventDefault();
     console.log(value);
 
-    // remove the previous choice buttons
-    const myNode = document.getElementById("main");
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
-    }
+    $.post("/getContext",
+      {
+        "context": value
+      }
+      , function(data, status){
+          // remove the previous choice buttons
+          const myNode = document.getElementById("main");
+          while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+          }
 
-    let node = document.createElement("a");
-    let text = document.createTextNode("How long is your drive going to be?");
-    node.className = "temp_message";
-    node.appendChild(text);
-    document.getElementById("main").appendChild(node);
+          let node = document.createElement("a");
+          let text = document.createTextNode("How long is your drive going to be?");
+          node.className = "temp_message";
+          node.appendChild(text);
+          document.getElementById("main").appendChild(node);
 
-    let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
-    for (let i=0; i<4; i++){
-      let button = document.createElement("a");
-      button.className = "button "+i;
-      let text = document.createTextNode(durations[i]);
-      button.appendChild(text);
-      button.setAttribute("onClick","setDuration("+i+")");
-      document.getElementById("main").appendChild(button);
-      
-    }
-
+          let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
+          for (let i=0; i<4; i++){
+            let button = document.createElement("a");
+            button.className = "button "+i;
+            let text = document.createTextNode(durations[i]);
+            button.appendChild(text);
+            button.setAttribute("onClick","setDuration("+i+")");
+            document.getElementById("main").appendChild(button);
+            
+          }
+        }
+      );
   }
 
 </script>
 
-<script>
+<script type="text/javascript">
   function setDuration(value){
       event.preventDefault();
       console.log(value+" duration");
@@ -119,9 +120,13 @@ function getRecommendations(){
       button.className = "button";
       let button_text = document.createTextNode("Great, take me there!");
       button.appendChild(button_text);
-      button.setAttribute("onClick","showPlaylist()");
+      button.setAttribute("onClick","getRecommendations("+value+")");
       document.getElementById("main").appendChild(button);
     }
+</script>
+
+<script type="text/javascript">
+
 </script>
 
 <script type="text/javascript">
