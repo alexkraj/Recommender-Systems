@@ -16,7 +16,8 @@ songs_df = []
 ratings_df = []
 context = 0
 duration = 0
-num_songs = 0
+num_songs = [8, 16, 24, 30]
+playlist_length = 0
 
 
 # read all the SONGS and RATINGS and convert into panda dataframe
@@ -106,8 +107,15 @@ def home():
 def getContext():
     global context
     context = int(request.form["context"])
-    print("THE CONTEXT IS "+ str(context))
-    return "success" 
+    filter_df(context)
+    return "successfully filtered the data by context" 
+
+@app.route("/getDuration", methods=['POST'])
+def getDuration():
+    global playlist_length
+    duration = int(request.form["duration"])
+    playlist_length = num_songs[duration]
+    return "successfully determined playlist length to match drive length" 
 
 
 @app.route("/myrecc", methods=["GET"])
@@ -183,7 +191,4 @@ def addRating():
 
 if __name__ == "__main__":
     songs_df, ratings_df = read_data("data/Pre-Filtered/music_data.csv", "data/Pre-Filtered/ratings_data.csv")
-    filter_df(3)
-    print(songs_df.head())
-    print(ratings_df.head())
     app.run(debug=True)

@@ -62,7 +62,6 @@ function getRecommendations(){
   // sends the context to the server
   function getContext(value){
     event.preventDefault();
-    console.log(value);
 
     $.post("/getContext",
       {
@@ -100,28 +99,55 @@ function getRecommendations(){
 <script type="text/javascript">
   function setDuration(value){
       event.preventDefault();
-      console.log(value+" duration");
-      
-      const myNode = document.getElementById("main");
-      while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
+
+      $.post("/getDuration",
+      {
+        "duration": value
       }
+      , function(data, status){
+          const myNode = document.getElementById("main");
+          while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+          }
 
-      let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
-      let numSongs = ["8", "16", "24", "30"];
+          let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
+          let numSongs = ["8", "16", "24", "30"];
 
-      let node = document.createElement("a");
-      let text = document.createTextNode("We've made you a playlist of "+numSongs[value]+" new songs for your "+durations[value]+" drive!");
-      node.className = "temp_message";
-      node.appendChild(text);
-      document.getElementById("main").appendChild(node);
+          let node = document.createElement("a");
+          let text = document.createTextNode("We've made you a playlist of "+numSongs[value]+" new songs for your "+durations[value]+" drive!");
+          node.className = "temp_message";
+          node.appendChild(text);
+          document.getElementById("main").appendChild(node);
 
-      let button = document.createElement("a");
-      button.className = "button";
-      let button_text = document.createTextNode("Great, take me there!");
-      button.appendChild(button_text);
-      button.setAttribute("onClick","getRecommendations("+value+")");
-      document.getElementById("main").appendChild(button);
+          let button = document.createElement("a");
+          button.className = "button";
+          let button_text = document.createTextNode("Great, take me there!");
+          button.appendChild(button_text);
+          button.setAttribute("onClick","getRecommendations("+value+")");
+          document.getElementById("main").appendChild(button);
+        }
+      );
+      
+      // const myNode = document.getElementById("main");
+      // while (myNode.firstChild) {
+      //   myNode.removeChild(myNode.firstChild);
+      // }
+
+      // let durations = ["0-30 min", "30min - 1hr", "1hr-1hr30", "1hr30-2hr"];
+      // let numSongs = ["8", "16", "24", "30"];
+
+      // let node = document.createElement("a");
+      // let text = document.createTextNode("We've made you a playlist of "+numSongs[value]+" new songs for your "+durations[value]+" drive!");
+      // node.className = "temp_message";
+      // node.appendChild(text);
+      // document.getElementById("main").appendChild(node);
+
+      // let button = document.createElement("a");
+      // button.className = "button";
+      // let button_text = document.createTextNode("Great, take me there!");
+      // button.appendChild(button_text);
+      // button.setAttribute("onClick","getRecommendations("+value+")");
+      // document.getElementById("main").appendChild(button);
     }
 </script>
 
