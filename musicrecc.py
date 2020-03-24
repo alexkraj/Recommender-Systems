@@ -56,7 +56,6 @@ def create_matrix(ratings):
     recommendation_matrix = ratings.pivot(
         index="User_ID", columns="Song_ID", values="Rating"
     ).fillna(0)
-    print ("THIS MATRIX CREATION FUNCTION IS SUCCESSFUL!")
     return recommendation_matrix
 
 
@@ -69,7 +68,6 @@ def demean_data(ratings):
 
 
 def recommend_songs(predictions_df, userID, songs_df, original_ratings_df, num_recommendations=50):
-    print(predictions_df)
     user_row_number = userID
     sorted_user_predictions = predictions_df.iloc[user_row_number].sort_values(
         ascending=False
@@ -81,7 +79,7 @@ def recommend_songs(predictions_df, userID, songs_df, original_ratings_df, num_r
     ).sort_values(["Rating"], ascending=False)
     # print("User {0} has already rated {1} books.".format(userID, user_full.shape[0]))
     print(
-        "Recommending the highest {0} predicted new songs for the listener.".format(
+        "Recommending the highest {0} predicted new songs for the listener in their given context.".format(
             num_recommendations
         )
     )
@@ -149,7 +147,7 @@ def my_recc():
     recommended_songs = predictions.head(playlist_length)
     # recommended_songs = already_rated.head(playlist_length)
     songs_json = recommended_songs.to_json(orient="records")
-    print(songs_json)
+    # print(songs_json)
     user_info = {"user_ID": user, "rec_songs": songs_json}
 
     return json.dumps(user_info)
